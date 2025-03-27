@@ -45,61 +45,19 @@
 
   <dependencies>
 
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-aop</artifactId>
-        <version>${spring-aop.version}</version>
-        <scope>compile</scope>
-      </dependency>
 
-      <dependency>
-        <groupId>org.aspectj</groupId>
-        <artifactId>aspectjweaver</artifactId>
-        <version>${aspectjweaver.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-
-      <dependency>
-          <groupId>jakarta.persistence</groupId>
-          <artifactId>jakarta.persistence-api</artifactId>
-          <version>3.2.0</version>
-      </dependency>
-
-      <dependency>
-          <groupId>org.projectlombok</groupId>
-          <artifactId>lombok</artifactId>
-          <version>1.18.36</version>
-      </dependency>
-
-
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-expression</artifactId>
-          <version>6.2.5</version>
-      </dependency>
-
-
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>6.2.5</version>
-    </dependency>
-
-
-     <!-- SLF4J API -->
     <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>2.0.9</version>
+        <groupId>jakarta.persistence</groupId>
+        <artifactId>jakarta.persistence-api</artifactId>
+        <version>3.2.0</version>
     </dependency>
 
-    <!-- SLF4J implementation (e.g., Logback) -->
     <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>1.4.14</version>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.36</version>
     </dependency>
+
 
 
     <!-- JUnit 5 API and Engine -->
