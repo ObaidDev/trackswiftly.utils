@@ -25,10 +25,14 @@ import org.springframework.stereotype.Component;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import lombok.extern.slf4j.Slf4j;
+
 
 @Aspect
 @Component
+@Slf4j
 public class OwnershipValidationAspect {
+
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -114,7 +118,9 @@ public class OwnershipValidationAspect {
 
         Query query = entityManager.createQuery(queryStr)
             .setParameter("ids", new HashSet<>(ids));
-            
+        
+        log.info("Query: {} 📕" , queryStr) ;
+
         // if (validationType == ValidationType.BELONGS_TO_TENANT) {
         //     query.setParameter("tenantId", TenantContext.getTenantId());
         // }
