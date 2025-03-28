@@ -26,6 +26,6 @@ public interface TrackSwiftlyService <T , I , O>{
     public PageDTO<O> pageEntities(int page, int pageSize) ;
 
 
-    public OperationResult updatePoisInBatch(List<T> ids, I request) ;
+    public OperationResult updateEntities(List<T> ids, I request) ;
     
 }
