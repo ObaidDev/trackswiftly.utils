@@ -9,7 +9,7 @@ import lombok.extern.log4j.Log4j2;
 
 
 @Log4j2
-public abstract class TrackSwiftlyService<T, I, O> implements TrackSwiftlyServiceInterface<T, I, O> {
+public abstract class TrackSwiftlyService<T, I, O , E> implements TrackSwiftlyServiceInterface<T, I, O> {
 
     protected abstract List<O> performCreateEntities(List<I> requests);
     protected abstract OperationResult performUpdateEntities(List<T> ids, I request);
@@ -20,17 +20,12 @@ public abstract class TrackSwiftlyService<T, I, O> implements TrackSwiftlyServic
 
      // Final methods enforce validation execution before actual logic
     public final List<O> createEntities(List<I> requests) {
-        executeValidation("createEntities", requests);
+        validateCreate(     requests    );
         return performCreateEntities(requests);
     }
 
     public final OperationResult updateEntities(List<T> ids, I request) {
-        executeValidation("updateEntities", ids, request);
+        validateUpdate( ids, request);
         return performUpdateEntities(ids, request);
-    }
-
-
-    private void executeValidation(String methodName, Object... args) {
-        log.info("Executing validation for method: {}", methodName);
     }
 }
