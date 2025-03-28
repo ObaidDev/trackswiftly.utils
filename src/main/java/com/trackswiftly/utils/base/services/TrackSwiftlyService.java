@@ -1,12 +1,14 @@
 package com.trackswiftly.utils.base.services;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
-import com.trackswiftly.utils.annotations.ValidateOwnership;
 import com.trackswiftly.utils.dtos.OperationResult;
 import com.trackswiftly.utils.interfaces.TrackSwiftlyServiceInterface;
 
+import lombok.extern.log4j.Log4j2;
+
+
+@Log4j2
 public abstract class TrackSwiftlyService<T, I, O> implements TrackSwiftlyServiceInterface<T, I, O> {
 
     protected abstract List<O> performCreateEntities(List<I> requests);
@@ -29,18 +31,6 @@ public abstract class TrackSwiftlyService<T, I, O> implements TrackSwiftlyServic
 
 
     private void executeValidation(String methodName, Object... args) {
-        try {
-            Method method = this.getClass().getMethod(methodName, List.class);
-            if (method.isAnnotationPresent(ValidateOwnership.class)) {
-                System.out.println("Executing ownership validation for method: " + methodName);
-                if ("createEntities".equals(methodName)) {
-                    validateCreate((List<I>) args[0]);
-                } else if ("updateEntities".equals(methodName)) {
-                    validateUpdate((List<T>) args[0], (I) args[1]);
-                }
-            }
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Method not found: " + methodName, e);
-        }
+        log.info("Executing validation for method: {}", methodName);
     }
 }
