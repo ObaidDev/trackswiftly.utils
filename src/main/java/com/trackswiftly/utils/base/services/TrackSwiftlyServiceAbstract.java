@@ -9,13 +9,10 @@ import lombok.extern.log4j.Log4j2;
 
 
 @Log4j2
-public abstract class TrackSwiftlyService<T, I, O> implements TrackSwiftlyServiceInterface<T, I, O> {
+public abstract class TrackSwiftlyServiceAbstract<T, I, O> implements TrackSwiftlyServiceInterface<T, I, O> {
 
     protected abstract List<O> performCreateEntities(List<I> requests);
     protected abstract OperationResult performUpdateEntities(List<T> ids, I request);
-
-    protected abstract void validateCreate(List<I> requests);
-    protected abstract void validateUpdate(List<T> ids, I request);
 
 
      // Final methods enforce validation execution before actual logic
