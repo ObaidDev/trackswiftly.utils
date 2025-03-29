@@ -27,5 +27,13 @@ public interface TrackSwiftlyServiceInterface <T , I , O>{
 
 
     public OperationResult updateEntities(List<T> ids, I request) ;
+
+    /**
+     * 
+     * Expose validation methods in the interface
+     */
+
+    void validateCreate(List<I> requests);
+    void validateUpdate(List<T> ids, I request);
     
 }
