@@ -14,6 +14,9 @@ public abstract class TrackSwiftlyServiceAbstract<T, I, O> implements TrackSwift
     protected abstract List<O> performCreateEntities(List<I> requests);
     protected abstract OperationResult performUpdateEntities(List<T> ids, I request);
 
+    protected abstract void validateCreate(List<I> requests);
+    protected abstract void validateUpdate(List<T> ids, I request);
+
 
      // Final methods enforce validation execution before actual logic
     public final List<O> createEntities(List<I> requests) {
