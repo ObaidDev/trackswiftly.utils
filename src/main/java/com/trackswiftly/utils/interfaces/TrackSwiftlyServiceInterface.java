@@ -29,6 +29,6 @@ public interface TrackSwiftlyServiceInterface <T , I , O>{
     public OperationResult updateEntities(List<T> ids, I request) ;
 
 
-    public List<T> search(String keyword) ;
+    public List<O> search(String keyword) ;
     
 }
