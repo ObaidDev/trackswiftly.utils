@@ -1,5 +1,7 @@
 package com.trackswiftly.utils.base.utils;
 
+import java.util.UUID;
+
 import lombok.extern.log4j.Log4j2;
 
 
@@ -8,14 +10,14 @@ public final class TenantContext {
     
     private TenantContext() {}
 
-    private static InheritableThreadLocal<String> currentTenant = new InheritableThreadLocal<>();
+    private static InheritableThreadLocal<UUID> currentTenant = new InheritableThreadLocal<>();
 
-    public static void setTenantId(String tenantId) {
+    public static void setTenantId(UUID tenantId) {
         log.debug("Setting tenantId to " + tenantId);
         currentTenant.set(tenantId);
     }
 
-    public static String getTenantId() {
+    public static UUID getTenantId() {
         return currentTenant.get();
     }
 
