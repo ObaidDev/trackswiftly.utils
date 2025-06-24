@@ -9,13 +9,29 @@ import java.util.Set;
 import lombok.extern.log4j.Log4j2;
 
 
+
+/**
+ * Utility class for managing Access Control Lists (ACL).
+ * Provides methods to convert ACL data structures, check access permissions,
+ * and test ACL compression/decompression.
+ */
 @Log4j2
 public class ACLManager {
 
+    /** Key representing allowed HTTP methods in the ACL structure. */
     final static String METHODS = "methods";
+
+
+    /** Key representing allowed item IDs in the ACL structure. */
     final static String IDS = "ids";
 
-
+    /**
+     * Converts a raw ACL map (with list-based permissions) into a more optimized
+     * structure using sets for faster lookup.
+     *
+     * @param rawAcl A map where each URI is associated with another map containing method and ID lists.
+     * @return A map with the same structure but with sets instead of lists for faster access checks.
+    */
     public Map<String, Map<String, Set<String>>> convertToSet(Map<String, Map<String, List<String>>> rawAcl) {
 
         log.info("Converting ACL to Set...");
@@ -38,7 +54,15 @@ public class ACLManager {
     }
 
 
-
+    /**
+     * Checks whether a specific request (URI + method + item IDs) is allowed based on the given ACL table.
+     *
+     * @param aclTable The ACL table with URI-based access rules.
+     * @param uri      The request URI.
+     * @param method   The HTTP method (e.g., GET, POST).
+     * @param itemIds  The list of item IDs being accessed.
+     * @return {@code true} if access is allowed, {@code false} otherwise.
+     */
     public boolean hasAccess(Map<String, Map<String, Set<String>>> aclTable, String uri, String method, List<String> itemIds) {
         
         if (!aclTable.containsKey(uri)) {
@@ -69,10 +93,10 @@ public class ACLManager {
 
 
     /**
-     * utility method to check if the token is valid
-     * @param token
-     * @param uri
-     * @param method
+     * Retrieves and converts ACL data from a token payload.
+     *
+     * @param tokenInfo The token payload containing ACL rules.
+     * @return A map with optimized ACL data using sets.
      */
     public Map<String, Map<String, Set<String>>> getAclTable (Map<String, Object> tokenInfo) {
 
@@ -83,7 +107,11 @@ public class ACLManager {
     }
 
 
-
+    /**
+     * Tests compression and decompression of the ACL table using {@link CompressedAclService}.
+     *
+     * @param aclTable The ACL table to compress and decompress.
+     */
     public void testEncodeDecode(Map<String, Map<String, Set<String>>> aclTable){
 
         String comporedAcl = CompressedAclService.compressAcl(aclTable);

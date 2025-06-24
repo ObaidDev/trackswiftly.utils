@@ -1,7 +1,10 @@
 package com.trackswiftly.utils.enums;
 
 
-
+/**
+ * Enumeration of user roles in the TrackSwiftly system,
+ * describing different levels of access and responsibilities.
+ */
 public enum TrackSwiftlyRolesEnum {
     
     /***

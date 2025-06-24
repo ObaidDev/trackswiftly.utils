@@ -13,11 +13,19 @@ import com.trackswiftly.utils.enums.Resource;
 
 import lombok.extern.log4j.Log4j2;
 
+
+/**
+ * A utility service to compress and decompress Access Control Lists (ACLs)
+ * using resource and method mappings to reduce size and optimize lookup.
+ * <p>
+ * The compression reduces verbose string-based ACL structures into compact,
+ * delimited formats using numeric identifiers.
+ */
 @Log4j2
 public class CompressedAclService {
 
 
-
+    /** Private constructor to prevent instantiation. */
     private CompressedAclService() {}
 
     private static final Map<String, Integer> RESOURCE_MAP = new HashMap<>();
@@ -46,12 +54,29 @@ public class CompressedAclService {
     }
 
 
+
+    /**
+     * Adds a bi-directional mapping between string and integer values.
+     *
+     * @param forward the forward map (string -> int)
+     * @param reverse the reverse map (int -> string)
+     * @param key     the string key
+     * @param value   the integer value
+     */
     private static void addMapping(Map<String, Integer> forward, Map<Integer, String> reverse, String key, Integer value) {
         forward.put(key, value);
         reverse.put(value, key);
     }
 
 
+
+
+    /**
+     * Returns an existing or dynamically created resource ID.
+     *
+     * @param resource the resource name
+     * @return the numeric ID of the resource
+     */
     private static Integer getOrCreateResourceId(String resource) {
         Integer resourceId = RESOURCE_MAP.getOrDefault(resource, 0);
         
@@ -65,6 +90,14 @@ public class CompressedAclService {
     }
 
 
+
+
+    /**
+     * Returns an existing or dynamically created method ID.
+     *
+     * @param method the HTTP or logical method name
+     * @return the numeric ID of the method
+     */
     private static Integer getOrCreateMethodId(String method) {
         Integer methodId = METHOD_MAP.getOrDefault(method, 0);
         if (methodId == 0) {
@@ -76,6 +109,14 @@ public class CompressedAclService {
     }
 
 
+
+
+    /**
+     * Converts a set of method names to a comma-separated list of method IDs.
+     *
+     * @param methods the method names
+     * @return a comma-separated string of method IDs
+     */
     private static String convertMethodsToIdString(Set<String> methods) {
         List<Integer> methodIds = new ArrayList<>();
         
@@ -89,6 +130,13 @@ public class CompressedAclService {
     }
 
 
+
+    /**
+     * Compresses an ACL map into a compact string format.
+     *
+     * @param acl the ACL map (resource -> methods &amp; ids)
+     * @return a compressed string representation of the ACL
+     */
     public static String compressAcl(Map<String, Map<String, Set<String>>> acl) {
 
         log.debug("Compressing ACL: {}", acl);
@@ -118,9 +166,10 @@ public class CompressedAclService {
 
 
     /**
-     * Processes a single resource entry from compressed format
-     * @param entry Entry in format "resourceId:methodId1,methodId2,..."
-     * @return Map entry with resource name as key and methods map as value, or null if invalid
+     * Processes a single compressed resource entry into a resource-method map.
+     *
+     * @param entry a string in the format "resourceId:methodId1,methodId2,..."
+     * @return a map entry with resource name and method set, or {@code null} if malformed
      */
     private static Map.Entry<String, Map<String, Set<String>>> processResourceEntry(String entry) {
         if (entry.isEmpty()) {
@@ -149,7 +198,10 @@ public class CompressedAclService {
 
 
     /**
-     * Converts a comma-separated string of method IDs to a set of method names
+     * Converts a comma-separated list of method IDs to a set of method names.
+     *
+     * @param methodIdsStr the comma-separated method ID string
+     * @return a set of method names
      */
     private static Set<String> processMethodIds(String methodIdsStr) {
         Set<String> methods = new HashSet<>();
@@ -167,6 +219,13 @@ public class CompressedAclService {
     }
 
 
+
+    /**
+     * Decompresses a compressed ACL string into its map representation.
+     *
+     * @param compressedAcl the compressed ACL string
+     * @return the decompressed ACL map (resource -> methods)
+     */
     public static Map<String, Map<String, Set<String>>> decompressAcl(String compressedAcl) {
         
         log.debug("Decompressing ACL: {}", compressedAcl);
